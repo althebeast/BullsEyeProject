@@ -35,8 +35,24 @@ struct TargetNumberText: View {
     }
 }
 
+struct SliderText: View{
+    
+    var text: String
+    
+    var body: some View{
+        Text(text)
+            .font(.title3)
+            .bold()
+            .foregroundColor(Color("TextColor"))
+    }
+}
+
 struct TextViews_Previews: PreviewProvider {
     static var previews: some View {
-        InstructionText(text: "Instructions")
+        VStack{
+            InstructionText(text: "Instructions")
+            TargetNumberText(text: "50")
+            SliderText(text: "1-100")
+        }
     }
 }
