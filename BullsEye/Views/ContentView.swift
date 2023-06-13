@@ -85,7 +85,8 @@ struct HitMeButton: View{
             Button("Awesome",
                    action: {
                 alertIsVisible = false
-                sliderValue = 50.0
+                sliderValue = 50
+                game.target = Int.random(in: 1...100)
             })
         },
                message: {
