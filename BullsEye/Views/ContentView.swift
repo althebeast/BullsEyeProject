@@ -15,8 +15,7 @@ struct ContentView: View {
     
     var body: some View {
         ZStack{
-            Color("BColor")
-                .ignoresSafeArea()
+            BackgroundView(game: $game)
             VStack{
                 Spacer()
                 InstructionsView(game: $game)
@@ -48,10 +47,12 @@ struct SliderView: View{
     var body: some View{
         HStack {
             SliderText(text: "1")
+                .frame(width: 35)
             Slider(
                 value: $sliderValue,
             in: 0...100)
             SliderText(text: "100")
+                .frame(width: 35)
         }
         .padding()
     }
@@ -74,6 +75,10 @@ struct HitMeButton: View{
                     gradient: Gradient(colors: [Color.white.opacity(0.3), Color.clear]),
                     startPoint: .top, endPoint: .bottom)
             }
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 21.0)
+                .strokeBorder(Color.white, lineWidth: 2.0)
         )
         .cornerRadius(21.0)
         .foregroundColor(Color.white)
