@@ -16,8 +16,9 @@ struct BackgroundView: View {
             BottomView(game: $game)
         }
         .padding()
-        .background(Color("BColor")
-            .ignoresSafeArea())
+        .background(
+            RingsView()
+        )
     }
 }
 
@@ -25,9 +26,18 @@ struct TopView: View {
     @Binding var game: Game
     var body: some View {
         HStack{
-            RoundedImageViewStroked(systemName: "arrow.counterclockwise")
+            Button {
+                game.restartGame()
+            } label: {
+                RoundedImageViewStroked(systemName: "arrow.counterclockwise")
+            }
             Spacer()
-            RoundedImageViewFilled(systemName: "list.dash")
+            Button {
+                return
+            } label: {
+                RoundedImageViewFilled(systemName: "list.dash")
+            }
+
         }
     }
 }
@@ -51,6 +61,25 @@ struct BottomView: View {
             NumberView(title: "Score", text: String(game.score))
             Spacer()
             NumberView(title: "Round", text: String(game.round))
+        }
+    }
+}
+
+struct RingsView: View{
+    @Environment(\.colorScheme) var colorScheme
+    var body: some View{
+        ZStack{
+            Color("BColor")
+                .ignoresSafeArea()
+            ForEach(1..<6){ ring in
+                let size = CGFloat(ring * 100)
+//if de ki gibi önce condicion yazılıyor, soru işareti eğer bu condicion true ise anlamına geliyor, ? den sonra gelen değer condicion true ise kullanılan değer, : ise eğer condicion true değil ise anlamına geliyor, : den sonra ki değer eğer condicion false ise kullanılıyor.
+                let opacity = colorScheme == .dark ? 0.7 : 0.3
+                Circle()
+                    .stroke(lineWidth: 10)
+                    .fill(RadialGradient(gradient: Gradient(colors: [Color("RingsColor").opacity(opacity * 0.8), Color("RingsColor").opacity(0)]), center: .center, startRadius: 100, endRadius: 300))
+                    .frame(width: size, height: size)
+            }
         }
     }
 }

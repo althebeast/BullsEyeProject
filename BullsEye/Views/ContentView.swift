@@ -19,12 +19,13 @@ struct ContentView: View {
             VStack{
                 Spacer()
                 InstructionsView(game: $game)
-                Spacer()
-                SliderView(sliderValue: $sliderValue)
+                    .padding(.bottom, 60)
                 Spacer()
                 HitMeButton(game: $game, sliderValue: $sliderValue, alertIsVisible: $alertIsVisible)
                 Spacer()
             }
+            SliderView(sliderValue: $sliderValue)
+                .padding(.top, 100)
         }
     }
 }
@@ -54,7 +55,7 @@ struct SliderView: View{
             SliderText(text: "100")
                 .frame(width: 35)
         }
-        .padding()
+        .padding(.bottom, 100)
     }
 }
 
@@ -91,7 +92,7 @@ struct HitMeButton: View{
                    action: {
                 alertIsVisible = false
                 sliderValue = 50
-                game.target = Int.random(in: 1...100)
+                game.startNewRound(points: game.points(sliderValue: Int(sliderValue)))
             })
         },
                message: {
