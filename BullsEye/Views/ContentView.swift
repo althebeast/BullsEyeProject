@@ -17,15 +17,22 @@ struct ContentView: View {
         ZStack{
             BackgroundView(game: $game)
             VStack{
-                Spacer()
                 InstructionsView(game: $game)
-                    .padding(.bottom, 60)
-                Spacer()
-                HitMeButton(game: $game, sliderValue: $sliderValue, alertIsVisible: $alertIsVisible)
-                Spacer()
+                    .padding(.bottom, alertIsVisible ? 0 : 200)
+                if alertIsVisible {
+                    PointsView(game: $game, sliderValue: $sliderValue, alertIsVisible: $alertIsVisible)
+                        .transition(.scale)
+                } else {
+                    HitMeButton(game: $game, sliderValue: $sliderValue, alertIsVisible: $alertIsVisible)
+                        .transition(.scale)
+                }
             }
-            SliderView(sliderValue: $sliderValue)
-                .padding(.top, 100)
+            if !alertIsVisible {
+                SliderView(sliderValue: $sliderValue)
+                    .zIndex(1)
+                    .transition(.scale)
+                    .padding(.top, 100)
+            }
         }
     }
 }
@@ -67,7 +74,9 @@ struct HitMeButton: View{
     var body: some View{
         Button("Hit me".uppercased(),
                action: {
-            alertIsVisible = true
+            withAnimation {
+                alertIsVisible = true
+            }
         }).padding(20.0)
         .background(
             ZStack {
@@ -78,30 +87,13 @@ struct HitMeButton: View{
             }
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 21.0)
-                .strokeBorder(Color.white, lineWidth: 2.0)
+            RoundedRectangle(cornerRadius: Constants.General.roundRectCornerRadius)
+                .strokeBorder(Color.white, lineWidth: Constants.General.strokeWidth)
         )
-        .cornerRadius(21.0)
+        .cornerRadius(Constants.General.roundRectCornerRadius)
         .foregroundColor(Color.white)
         .bold()
         .font(.title3)
-        .alert("Hello There!",
-               isPresented: $alertIsVisible,
-               actions: {
-            Button("Awesome",
-                   action: {
-                alertIsVisible = false
-                sliderValue = 50
-                game.startNewRound(points: game.points(sliderValue: Int(sliderValue)))
-            })
-        },
-               message: {
-            let roundedValue = Int(sliderValue.rounded())
-            Text("""
-                    The slider's value is \(roundedValue)
-                    You scored \(game.points(sliderValue: roundedValue)) points this round.
-                """)
-        })
     }
 }
 
