@@ -18,7 +18,7 @@ struct ContentView: View {
             BackgroundView(game: $game)
             VStack{
                 InstructionsView(game: $game)
-                    .padding(.bottom, alertIsVisible ? 0 : 200)
+                    .padding(.bottom, alertIsVisible ? 0 : 120)
                 if alertIsVisible {
                     PointsView(game: $game, sliderValue: $sliderValue, alertIsVisible: $alertIsVisible)
                         .transition(.scale)
@@ -31,7 +31,7 @@ struct ContentView: View {
                 SliderView(sliderValue: $sliderValue)
                     .zIndex(1)
                     .transition(.scale)
-                    .padding(.top, 100)
+                    .padding(.top, 10)
             }
         }
     }
@@ -62,7 +62,6 @@ struct SliderView: View{
             SliderText(text: "100")
                 .frame(width: 35)
         }
-        .padding(.bottom, 100)
     }
 }
 
