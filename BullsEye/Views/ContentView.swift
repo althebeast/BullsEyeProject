@@ -18,7 +18,7 @@ struct ContentView: View {
             BackgroundView(game: $game)
             VStack{
                 InstructionsView(game: $game)
-                    .padding(.bottom, alertIsVisible ? 0 : 120)
+                    .padding(.bottom, alertIsVisible ? 0 : 130)
                 if alertIsVisible {
                     PointsView(game: $game, sliderValue: $sliderValue, alertIsVisible: $alertIsVisible)
                         .transition(.scale)
